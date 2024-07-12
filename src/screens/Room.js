@@ -2,13 +2,17 @@ import React, { useEffect, useCallback, useState } from "react";
 import ReactPlayer from "react-player";
 import peer from "../services/peer";
 import { useSocket } from "../context/SocketProvider.";
-
+import { FaVolumeMute, FaVolumeUp } from 'react-icons/fa'; 
 const RoomPage = () => {
   const socket = useSocket();
   const [remoteSocketId, setRemoteSocketId] = useState(null);
   const [myStream, setMyStream] = useState();
   const [remoteStream, setRemoteStream] = useState();
+  const [isMuted, setIsMuted] = useState(false);
 
+  const toggleMute = () => {
+    setIsMuted(prevState => !prevState);
+  };
   const handleUserJoined = useCallback(({ email, id }) => {
     console.log(`Email ${email} joined room`);
     setRemoteSocketId(id);
@@ -110,33 +114,50 @@ const RoomPage = () => {
   ]);
 
   return (
-    <div>
-      <h1>Room Page</h1>
-      <h4>{remoteSocketId ? "Connected" : "No one in room"}</h4>
-      {myStream && <button onClick={sendStreams}>Send Stream</button>}
-      {remoteSocketId && <button onClick={handleCallUser}>CALL</button>}
+    <div className="text-center">
+      <h1 className="text-4xl mb-4">Room Page</h1>
+      <h4 className="text-2xl mb-4">{remoteSocketId ? "Connected" : "No one in room"}</h4>
+      {myStream && (
+        <button onClick={sendStreams} className="btn btn-primary mx-2 bg-blue-500 text-white py-2 px-4 rounded">
+          Send Stream
+        </button>
+      )}
+      {remoteSocketId && (
+        <button onClick={handleCallUser} className="btn btn-primary mx-2 bg-blue-500 text-white py-2 px-4 rounded">
+          CALL
+        </button>
+      )}
       {myStream && (
         <>
-          <h1>My Stream</h1>
-          <ReactPlayer
-            playing
-            volume={1}
-            height="100px"
-            width="200px"
-            url={myStream}
-          />
+          <h3 className="text-3xl mt-4 mb-2">My Stream</h3>
+          <div className="flex justify-center">
+            <ReactPlayer
+              playing
+              volume={1}
+              height="200px"
+              width="200px"
+              muted={isMuted}
+              url={myStream}
+            />
+          </div>
         </>
       )}
       {remoteStream && (
         <>
-          <h1>Remote Stream</h1>
-          <ReactPlayer
-            playing
-            volume={1}
-            height="100px"
-            width="200px"
-            url={remoteStream}
-          />
+          <h3 className="text-3xl mt-4 mb-2">Remote Stream</h3>
+          <div className="flex justify-center">
+            <ReactPlayer
+              playing
+              volume={1}
+              height="200px"
+              width="200px"
+              muted={isMuted}
+              url={remoteStream}
+            />
+          </div>
+          <button className="mt-2" onClick={toggleMute}>
+            {isMuted ? <FaVolumeMute size={24} /> : <FaVolumeUp size={24} />}
+          </button>
         </>
       )}
     </div>

@@ -30,21 +30,33 @@ export default function Lobby() {
   return (
     <>
     
-    <form onSubmit={handlesubmitform} style={{textAlign:"center"}}>
-
-        <label htmlFor='email' className='mx-3'>
+    <form onSubmit={handlesubmitform} className="text-center mt-5">
+    <div className="mb-4">
+        <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2 mx-3">
             Email-Id
         </label>
-        <input type="email" id="email" onChange={(e)=>setEmail(e.target.value)}></input>
-        <br/>
-        <label htmlFor='room' className='mx-3'>
-            Room<br/> Number
+        <input
+            type="email"
+            id="email"
+            onChange={(e) => setEmail(e.target.value)}
+            className="shadow appearance-none border rounded  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        />
+    </div>
+    <div className="mb-4">
+        <label htmlFor="room" className="block text-gray-700 text-sm font-bold mb-2 mx-3">
+            Room<br /> Number
         </label>
-       
-        <input type='text' onChange={(e)=>setRoom(e.target.value)} ></input>
-        <br/>
-        <button className='btn btn-primary mt-3'>Join Now</button>
-    </form>
+        <input
+            type="text"
+            onChange={(e) => setRoom(e.target.value)}
+            className="shadow appearance-none border rounded  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        />
+    </div>
+    <button className="btn btn-primary mt-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+        Join Now
+    </button>
+</form>
+
     </>
   )
 }
