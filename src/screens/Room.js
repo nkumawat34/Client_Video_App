@@ -112,7 +112,19 @@ const RoomPage = () => {
     handleNegoNeedIncomming,
     handleNegoNeedFinal,
   ]);
-
+  const endCall = () => {
+    // Logic to stop the stream and clean up resources
+    if (myStream) {
+      myStream.getTracks().forEach(track => track.stop());
+    }
+    if (remoteStream) {
+      remoteStream.getTracks().forEach(track => track.stop());
+    }
+    setMyStream(null);
+    setRemoteStream(null);
+    setRemoteSocketId(null);
+    peer.peer.close();
+  };
   return (
     <div className="text-center">
       <h1 className="text-4xl mb-4">Room Page</h1>
@@ -157,6 +169,9 @@ const RoomPage = () => {
           </div>
           <button className="mt-2" onClick={toggleMute}>
             {isMuted ? <FaVolumeMute size={24} /> : <FaVolumeUp size={24} />}
+          </button>
+          <button className="mt-2 ml-4 bg-red-500 text-white py-2 px-4 rounded" onClick={endCall}>
+            End Call
           </button>
         </>
       )}
